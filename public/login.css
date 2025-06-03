@@ -74,7 +74,7 @@ header.login-page-header {
 .login-page-header .brand-name {
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--gray-50);
 }
 
 .login-page-header .nav-link {
