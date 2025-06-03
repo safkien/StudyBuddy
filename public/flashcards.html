@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyBuddy – Flashcards</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="flashcards.css" /> 
+</head>
+<body class="flashcards-page">
+    <script src="auth.js"></script> 
+
+    <header>
+        <div class="container header-content">
+            <div class="flex items-center">
+                <span class="book-icon">📚</span>
+                <span class="sm:inline-block">StudyBuddy</span>
+            </div>
+            <nav class="nav">
+                <a href="index.html">Schedule</a>
+                <a href="flashcards.html" class="active">Flashcards</a>
+            </nav>
+            <div class="user-menu">
+                <button id="logout-btn" class="btn btn-secondary">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container grid grid-cols-1 md:grid-cols-2 gap-6"> 
+        <div class="space-y-6">
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <h1>Flashcards</h1>
+                <div id="folderActionsHeader" style="display: flex; gap: 0.5rem;">
+                    <button id="addFolderBtn" class="btn btn-primary">Add Subject Folder</button>
+                    <span id="addCardBtnContainer"></span>
+                </div>
+            </div>
+            <section id="flashcard-area" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="placeholder-text text-gray-500">
+                    <p>Your flashcard folders and cards will appear here. Click "Add Subject Folder" to get started!</p>
+                </div>
+            </section>
+        </div>
+        <div class="space-y-6">
+            <section class="card">
+              <div class="card-header">
+                <h2 class="card-title">Pomodoro Timer</h2>
+              </div>
+              <div class="pomodoro-timer" id="pomodoro-display">25:00</div>
+              <div class="pomodoro-controls">
+                <button class="btn btn-primary" id="pomodoro-start-pause-btn">Start</button>
+                <button class="btn btn-secondary" id="pomodoro-reset-btn">Reset</button>
+              </div>
+              <div class="pomodoro-presets">
+                <button class="pomodoro-preset active" data-time="25">25 min</button>
+                <button class="pomodoro-preset" data-time="5">5 min</button>
+                <button class="pomodoro-preset" data-time="15">15 min</button>
+              </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="folderModal" class="modal" style="display:none;">
+        <div class="modal-content card">
+            <span class="close-btn" onclick="closeFolderModal()">&times;</span>
+            <h2 id="folderModalTitle">Create Folder</h2>
+            <input type="text" id="folderNameInput" placeholder="Folder Name (e.g., Wiskunde, Hoofdstuk 1)" class="w-full input-field mb-4">
+            <input type="hidden" id="currentParentFolderId">
+            <button id="saveFolderBtn" class="btn btn-primary">Save Folder</button>
+        </div>
+    </div>
+        
+    <div id="flashcardModal" class="modal" style="display:none;">
+        <div class="modal-content card">
+            <span class="close-btn" onclick="closeFlashcardModal()">&times;</span>
+            <h2 id="flashcardModalTitle">Add Flashcard</h2>
+            <input type="hidden" id="currentCardFolderId">
+            <input type="hidden" id="editingCardId">
+            <textarea id="flashcardQuestion" placeholder="Question or Front of Card" class="w-full input-field mb-2" rows="3"></textarea>
+            <textarea id="flashcardAnswer" placeholder="Answer or Back of Card" class="w-full input-field mb-4" rows="3"></textarea>
+            <button id="saveFlashcardBtn" class="btn btn-primary">Save Flashcard</button>
+        </div>
+    </div>
+
+    <div id="reviewModal" class="modal" style="display:none;">
+        <div class="modal-content card">
+             <span class="close-btn" onclick="closeReviewModal()">&times;</span>
+            <h2 id="reviewFolderName">Reviewing: Folder Name</h2>
+            <div id="reviewCardArea">
+                <div id="reviewCardContent" class="flashcard-review-card">
+                    <div class="front">Question will appear here. Click to flip.</div>
+                    <div class="back" style="display:none;">Answer will appear here.</div>
+                </div>
+            </div>
+            <div id="reviewControls" class="mt-4 flex justify-around">
+                <button class="btn btn-danger" data-label="bad">Bad (Study More)</button>
+                <button class="btn btn-warning" data-label="okay">Okay</button>
+                <button class="btn btn-success" data-label="good">Good (Know Well)</button>
+            </div>
+            <div class="mt-4 flex justify-between">
+                <button id="prevCardBtn" class="btn btn-secondary">Previous</button>
+                <button id="nextCardBtn" class="btn btn-primary">Next</button>
+            </div>
+             <p id="reviewProgress" class="text-center mt-2"></p>
+        </div>
+    </div>
+
+    <div id="reviewOptionsModal" class="modal" style="display:none;">
+        <div class="modal-content card">
+            <span class="close-btn" onclick="closeReviewOptionsModal()">&times;</span>
+            <h2>Review Options</h2>
+            <input type="hidden" id="reviewOptionsFolderId">
+            <div class="mb-4">
+                <p><strong>Select cards to review:</strong></p>
+                <div>
+                    <input type="radio" id="reviewOptOkayBad" name="reviewFilter" value="okay_bad" checked>
+                    <label for="reviewOptOkayBad">Okay & Bad</label>
+                </div>
+                <div>
+                    <input type="radio" id="reviewOptBadOnly" name="reviewFilter" value="bad_only">
+                    <label for="reviewOptBadOnly">Bad Only</label>
+                </div>
+                <div>
+                    <input type="radio" id="reviewOptAll" name="reviewFilter" value="all">
+                    <label for="reviewOptAll">All Cards</label>
+                </div>
+            </div>
+            <div class="mb-4">
+                <input type="checkbox" id="includeSubfoldersCheckbox">
+                <label for="includeSubfoldersCheckbox">Include cards from subfolders</label>
+            </div>
+            <button id="startReviewFromOptionsBtn" class="btn btn-primary">Start Review Session</button>
+        </div>
+    </div>
+
+    
+    
+    <script src="pomodoroTimer.js" defer></script>
+    <script src="flashcardApp.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyBuddy – Login</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body class="login-page-body">
+    <header class="login-page-header">
+      <div class="container header-content">
+        <div class="flex items-center">
+          <span class="book-icon">📚</span>
+          <span class="brand-name">StudyBuddy</span>
+        </div>
+        
+      </div>
+    </header>
+    
+    <main class="login-container">
+      <div class="login-card">
+        <div class="login-form">
+          <div class="login-header">
+            <h2>Welcome!</h2>
+            <p class="login-subtitle">Connect with Zermelo to sync your study data</p>
+          </div>
+          
+          <form id="loginForm" class="login-form-container">
+            <div id="error-message" class="error-message" style="display: none;" role="alert"></div>
+            
+            <div class="input-group">
+              <input 
+                name="schoolName" 
+                type="text"
+                placeholder="Zermelo school name (e.g. bertrand)" 
+                required 
+                autocomplete="off"
+                aria-label="Zermelo school name"
+              >
+            </div>
+            
+            <div class="input-group">
+              <input 
+                name="authCode" 
+                type="text" 
+                placeholder="Authentication code from Zermelo app" 
+                required 
+                autocomplete="off"
+                aria-label="Authentication code"
+              >
+            </div>
+            
+            <button type="submit" id="login-btn" class="login-button">
+              <span id="login-text">Login</span>
+              <span id="login-spinner" class="spinner" style="display: none;">
+                <span class="spinner-icon">⏳</span>
+                Logging in...
+              </span>
+            </button>
+          </form>
+          
+          <div class="login-features">
+            <div class="feature">
+              <span class="feature-icon">📅</span>
+              <p>View Schedule</p>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">📝</span>
+              <p>Track Homework</p>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">👥</span>
+              <p>Class Info</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="login-image">
+          <div class="image-container">
+            <img 
+              src="./students-image.webp" 
+              alt="Students studying together" 
+              loading="lazy"
+              onerror="this.parentElement.classList.add('image-fallback')"
+            >
+            <div class="image-placeholder">
+              <span class="placeholder-icon">🎓</span>
+              <p>StudyBuddy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="loginHandler.js" defer></script>
+  </body>
+</html>

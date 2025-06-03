@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyBuddy – Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <script src="auth.js"></script>
+    
+    <header>
+      <div class="container header-content">
+        <div class="flex items-center">
+          <span class="book-icon">📚</span>
+          <span class="sm:inline-block">StudyBuddy</span>
+        </div>
+
+        <nav class="nav">
+          <a href="index.html">Schedule</a>
+          <a href="flashcards.html">Flashcards</a>
+        </nav>
+
+        <div class="user-menu">
+          
+          <button id="logout-btn" class="btn btn-secondary">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container grid grid-cols-2 space-y-6">
+      <div class="space-y-6">
+        <section class="card">
+          <div class="grid grid-cols-2 gap-4"> 
+            <div class="stat-card stat-card-blue">
+              <p class="stat-label">Next class</p>
+              <p class="stat-value" id="next-class-subject">Loading...</p>
+              <p id="next-class-time">--:-- – --:--</p>
+            </div>
+            <div class="stat-card stat-card-indigo">
+              <p class="stat-label">Classes today</p>
+              <p class="stat-value" id="classes-today-count">0</p>
+            </div>
+          </div>
+        </section>
+
+        
+        <section class="card">
+          <div class="card-header">
+            <h2 class="card-title">Today's Schedule</h2>
+            <div class="flex items-center space-x-2">
+              <button id="prevDateBtn" class="btn-icon" aria-label="Previous day">
+                ‹
+              </button>
+              <input type="date" id="datePicker" class="date-btn" />
+              <button id="nextDateBtn" class="btn-icon" aria-label="Next day">
+                ›
+              </button>
+            </div>
+          </div>
+
+          <div id="schedule-container" class="space-y-3">
+            <div id="schedule-loading" class="text-center">
+              <p>Loading schedule...</p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Right column -->
+      <div class="space-y-6">
+        <!-- Pomodoro -->
+        <section class="card">
+          <div class="card-header">
+            <h2 class="card-title">Pomodoro Timer</h2>
+            <!-- Settings button removed -->
+          </div>
+
+          <div class="pomodoro-timer" id="pomodoro-display">25:00</div>
+
+          <div class="pomodoro-controls">
+            <button class="btn btn-primary" id="pomodoro-start-pause-btn">Start</button>
+            <button class="btn btn-secondary" id="pomodoro-reset-btn">Reset</button>
+          </div>
+
+          <div class="pomodoro-presets">
+            <button class="pomodoro-preset active" data-time="25">25 min</button>
+            <button class="pomodoro-preset" data-time="5">5 min</button>
+            <button class="pomodoro-preset" data-time="15">15 min</button>
+          </div>
+
+        </section>
+
+        <!-- Quick stats -->
+        <section class="card">
+          <h2 class="card-title">Quick Stats</h2>
+          <div class="stats-grid">
+            <div class="stat-card stat-card-green">
+              <p class="stat-label">Study hours</p>
+              <p class="stat-value" id="study-hours-display">0.0</p> 
+            </div>
+            <div class="stat-card stat-card-purple"> 
+              <p class="stat-label">Pomodoros</p> 
+              <p class="stat-value" id="pomodoros-stats-display">0</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Study tip -->
+        <section class="card">
+          <h2 class="card-title">Study Tip</h2>
+          <div class="study-tip">
+            <div>
+              <p class="study-tip-title">💡 Active Recall</p>
+              <p class="study-tip-text">
+                Instead of passively reading, test yourself on the material. This
+                strengthens memory more effectively.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Add Event Modal -->
+    <div id="addEventModal" class="modal" style="display:none; align-items:center !important; justify-content:center !important; height:100vh !important; width:100vw !important; position:fixed !important; top:0 !important; left:0 !important; z-index: 1000 !important;">
+      <div class="modal-content card">
+        <span class="close-btn" id="closeEventModalBtn">&times;</span>
+        <h2>Add New Event</h2>
+        <form id="addEventForm">
+          <div class="form-group">
+            <label for="eventTitle">Event Title:</label>
+            <input type="text" id="eventTitle" class="input-field" required>
+          </div>
+          <div class="form-group">
+            <label for="eventDate">Date:</label>
+            <input type="date" id="eventDate" class="input-field" required>
+          </div>
+          <div class="form-group">
+            <label for="eventStartTime">Start Time:</label>
+            <input type="time" id="eventStartTime" class="input-field" required>
+          </div>
+          <div class="form-group">
+            <label for="eventEndTime">End Time:</label>
+            <input type="time" id="eventEndTime" class="input-field" required>
+          </div>
+          <div class="form-group">
+            <label for="eventDescription">Description (Optional):</label>
+            <textarea id="eventDescription" class="input-field" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Event</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Floating button -->
+    <button class="floating-btn" id="floatingAddEventBtn">
+      <span>+</span>
+    </button>
+
+    
+    <script src="scheduleManager.js" defer></script>
+    <script src="pomodoroTimer.js" defer></script>
+    <script src="dashboardInteractions.js" defer></script>
+  </body>
+</html>
