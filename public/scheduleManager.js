@@ -67,9 +67,11 @@ class ScheduleManager {
 
         try {
             const todayForZermelo = new Date();
-            const startDateEpoch = Math.floor(new Date(todayForZermelo.getFullYear(), todayForZermelo.getMonth(), todayForZermelo.getDate()).getTime() / 1000);
+            const startDateForZermelo = new Date(todayForZermelo);
+            startDateForZermelo.setDate(startDateForZermelo.getDate() - 14);
+            const startDateEpoch = Math.floor(startDateForZermelo.getTime() / 1000);
             const endDateForZermelo = new Date(todayForZermelo);
-            endDateForZermelo.setDate(endDateForZermelo.getDate() + 30); // Fetch for next 30 days
+            endDateForZermelo.setDate(endDateForZermelo.getDate() + 14); 
             const endDateEpoch = Math.floor(endDateForZermelo.getTime() / 1000);
             const zermeloApiUrl = `https://${schoolName.toLowerCase()}.zportal.nl/api/v3/appointments?user=~me&start=${startDateEpoch}&end=${endDateEpoch}&fields=id,start,end,subjects,teachers,locations,cancelled,valid,changeDescription,type,remark&access_token=${accessToken}`;
             
